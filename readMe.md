@@ -6,7 +6,7 @@
 	``` If you would like to start a new Android Studio Project and integrate OpenCV ```
 	
 	1. Download the opencv latest version <= your android studio version
-		https://sourceforge.net/projects/opencvlibrary/files/opencv-android/
+		[Download](https://sourceforge.net/projects/opencvlibrary/files/opencv-android/)
 	2. Extract it and save in a $Known_Directory
 	3. Start a New Android studio project
 	4. Go to File -> New -> Import Module
