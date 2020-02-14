@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">OpenCVReadImage</string>
+    <string name="greeting">Welcome to Open CV</string>
+</resources>
