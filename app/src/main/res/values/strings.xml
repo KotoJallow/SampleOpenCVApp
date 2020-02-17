@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">OpenCVReadImage</string>
     <string name="greeting">Welcome to Open CV</string>
+    <string name="title">Basic Image Effects</string>
+    <string name="imageDescription">Lenna Test Image</string>
+    <string-array name="imageEffects">
+        <item>Normal</item>
+        <item>Mean Blur</item>
+        <item>Median Blur</item>
+        <item>Gaussian Blur</item>
+        <item>Threshold</item>
+        <item>Adaptive Threshold</item>
+        <item>Erosion</item>
+        <item>Dilation</item>
+    </string-array>
 </resources>

@@ -1,64 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".MainActivity">
-
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome to Open CV Android"
-        android:layout_gravity="center"
-        android:textSize="20dp"
-        android:padding="10dp"
-        tools:layout_editor_absoluteX="153dp"
-        tools:layout_editor_absoluteY="48dp" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="400dp"
-        android:layout_margin="5dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerInside"
-        app:srcCompat="@drawable/image"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="160dp" />
-
-    `
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingHorizontal="50dp">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnGray"
-            android:layout_width="130dp"
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Gray" />
+            android:textSize="35sp"
+            android:textAlignment="center"
+            android:text="@string/title" />
 
-        <Button
-            android:id="@+id/btnLuv"
-            android:layout_width="146dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="LUV" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="371dp"
+            android:contentDescription="@string/imageDescription"
+            android:padding="5dp"
+            app:srcCompat="@drawable/lenna" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:tooltipText="Select Image Effect"
+            android:layout_margin="15dp">
+
+            <Spinner
+                android:id="@+id/spinnerEffects"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnNormal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp"
-        android:text="Normal Image" />
-
-</LinearLayout>
+</ScrollView>
