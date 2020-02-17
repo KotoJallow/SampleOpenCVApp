@@ -21,6 +21,9 @@ import org.opencv.core.Mat;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
+import static org.opencv.core.CvType.CV_64F;
+import static org.opencv.core.CvType.CV_8U;
+
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     ImageView imageView;
@@ -119,17 +122,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private void applyGradientEffects(int position) {
         Mat src;
+        Size kernel = new Size(3,3);
         src = readImageFromResources(R.drawable.lenna);
         switch (position) {
             case GradientEffects.NORMAL:
                 //Do nothing
                 break;
             case GradientEffects.SOBEL:
+                Imgproc.cvtColor(src,src,Imgproc.COLOR_BGR2GRAY);
+                Imgproc.GaussianBlur(src,src,kernel,0);
+                Imgproc.Sobel(src,src,CV_8U,1,0,3);
                 break;
             case GradientEffects.LAPLACE:
+                Imgproc.cvtColor(src,src,Imgproc.COLOR_BGR2GRAY);
+                Imgproc.GaussianBlur(src,src,kernel,0);
+                Imgproc.Laplacian(src,src,CV_8U,3);
                 break;
             case GradientEffects.CANNY:
-                Toast.makeText(getApplicationContext(), "Nothing selected", Toast.LENGTH_SHORT).show();
+                Imgproc.cvtColor(src,src,Imgproc.COLOR_BGR2GRAY);
+                Imgproc.blur(src,src,kernel);
+                Imgproc.Canny(src,src,85,100,3,true);
                 break;
             default:
                 break;
