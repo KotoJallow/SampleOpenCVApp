@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -25,7 +24,7 @@ import org.opencv.imgproc.Imgproc;
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     ImageView imageView;
-    Spinner spinner;
+    Spinner imageEffectsSpinner, gradientEffectsSpinner;
 
     public static final String TAG = "Main";
 
@@ -48,17 +47,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setupUI();
-        populateSpinner();
         addListeners();
     }
 
     public void setupUI() {
         imageView = findViewById(R.id.imageView);
-        spinner = findViewById(R.id.spinnerEffects);
+        imageEffectsSpinner = findViewById(R.id.spinnerEffects);
+        gradientEffectsSpinner = findViewById(R.id.gradientEffects);
+        populateSpinnerHelper(R.array.imageEffects,imageEffectsSpinner);
+        populateSpinnerHelper(R.array.gradientEffects,gradientEffectsSpinner);
     }
 
     public void addListeners() {
-        spinner.setOnItemSelectedListener(this);
+        imageEffectsSpinner.setOnItemSelectedListener(this);
+        gradientEffectsSpinner.setOnItemSelectedListener(this);
     }
 
     private Mat readImageFromResources(int resourceId) {
@@ -82,14 +84,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
-    public void populateSpinner() {
-        Spinner spinner = findViewById(R.id.spinnerEffects);
-        // Create an ArrayAdapter using the string array and a default spinner layout
+    public void populateSpinnerHelper(int resourceArrayId,Spinner spinner) {
+        // Create an ArrayAdapter using the string array and a default imageEffectsSpinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.imageEffects, android.R.layout.simple_spinner_item);
+                resourceArrayId, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
+        // Apply the adapter to the imageEffectsSpinner
         spinner.setAdapter(adapter);
     }
 
@@ -103,10 +104,42 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        applyEffect(position);
+        int parentId = parent.getId();
+        switch (parentId) {
+            case R.id.spinnerEffects:
+                applyImageEffect(position);
+                break;
+            case R.id.gradientEffects:
+                applyGradientEffects(position);
+                break;
+            default:
+                break;
+        }
     }
 
-    private void applyEffect(int position) {
+    private void applyGradientEffects(int position) {
+        Mat src;
+        src = readImageFromResources(R.drawable.lenna);
+        switch (position) {
+            case GradientEffects.NORMAL:
+                //Do nothing
+                break;
+            case GradientEffects.SOBEL:
+                break;
+            case GradientEffects.LAPLACE:
+                break;
+            case GradientEffects.CANNY:
+                Toast.makeText(getApplicationContext(), "Nothing selected", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
+        }
+
+        //Use showImage to set the processedImage to imageview
+        showImg(src);
+    }
+
+    private void applyImageEffect(int position) {
         Mat src;
         src = readImageFromResources(R.drawable.lenna);
         Size kernel = new Size(71, 19);
@@ -115,31 +148,31 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 //Do nothing
                 break;
             case ImageEffects.MEAN:
-                Imgproc.blur(src,src,kernel);
+                Imgproc.blur(src, src, kernel);
                 break;
             case ImageEffects.MEDIAN:
-                Imgproc.medianBlur(src,src,71);
+                Imgproc.medianBlur(src, src, 71);
                 break;
             case ImageEffects.GUASSIAN:
-                Imgproc.GaussianBlur(src,src,kernel,0);
+                Imgproc.GaussianBlur(src, src, kernel, 0);
                 break;
             case ImageEffects.THRESHOLD:
-                Imgproc.cvtColor(src,src,Imgproc.COLOR_BGR2GRAY);
-                Imgproc.threshold(src,src,100,255,Imgproc.THRESH_BINARY);
+                Imgproc.cvtColor(src, src, Imgproc.COLOR_BGR2GRAY);
+                Imgproc.threshold(src, src, 100, 255, Imgproc.THRESH_BINARY);
                 break;
             case ImageEffects.ADAPTIVE:
-                Imgproc.cvtColor(src,src,Imgproc.COLOR_BGR2GRAY);
-                Imgproc.adaptiveThreshold(src,src,255,Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C,Imgproc.THRESH_BINARY,3,0);
+                Imgproc.cvtColor(src, src, Imgproc.COLOR_BGR2GRAY);
+                Imgproc.adaptiveThreshold(src, src, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY, 3, 0);
                 break;
             case ImageEffects.EROSION:
-                Mat kernelErose = Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE,kernel);
-                Imgproc.cvtColor(src,src,Imgproc.COLOR_BGR2GRAY);
-                Imgproc.erode(src,src,kernelErose);
+                Mat kernelErose = Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, kernel);
+                Imgproc.cvtColor(src, src, Imgproc.COLOR_BGR2GRAY);
+                Imgproc.erode(src, src, kernelErose);
                 break;
             case ImageEffects.DILATION:
-                Mat kernelDilate = Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE,kernel);
-                Imgproc.cvtColor(src,src,Imgproc.COLOR_BGR2GRAY);
-                Imgproc.dilate(src,src,kernelDilate);
+                Mat kernelDilate = Imgproc.getStructuringElement(Imgproc.MORPH_ELLIPSE, kernel);
+                Imgproc.cvtColor(src, src, Imgproc.COLOR_BGR2GRAY);
+                Imgproc.dilate(src, src, kernelDilate);
                 break;
             default:
                 break;
@@ -156,5 +189,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private static class ImageEffects {
         static final int NORMAL = 0, MEAN = 1, MEDIAN = 2, GUASSIAN = 3, THRESHOLD = 4, ADAPTIVE = 5, EROSION = 6, DILATION = 7;
+    }
+
+    private static class GradientEffects {
+        static final int NORMAL = 0, SOBEL = 1, LAPLACE = 2, CANNY = 3;
     }
 }

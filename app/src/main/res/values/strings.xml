@@ -3,6 +3,7 @@
     <string name="greeting">Welcome to Open CV</string>
     <string name="title">Basic Image Effects</string>
     <string name="imageDescription">Lenna Test Image</string>
+    <string name="gradientEffects">Gradients and Edge detection</string>
     <string-array name="imageEffects">
         <item>Normal</item>
         <item>Mean Blur</item>
@@ -12,5 +13,11 @@
         <item>Adaptive Threshold</item>
         <item>Erosion</item>
         <item>Dilation</item>
+    </string-array>
+    <string-array name="gradientEffects">
+        <item>Normal</item>
+        <item>Sobel</item>
+        <item>Laplace</item>
+        <item>Canny</item>
     </string-array>
 </resources>
